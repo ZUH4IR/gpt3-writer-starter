@@ -10,20 +10,20 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-const basePromptPrefix =
-  `
-    I am ${req.body.userInput}
+const basePromptPrefix = ""
+//   `
+//     I am ${req.body.userInput}
 
-    Create some possible outfits to wear today; it is ${temp} degrees and ${weather} today in ${location}.
+//     Create some possible outfits to wear today; it is ${temp} degrees and ${weather} today in ${location}.
 
-    Explain to me each of your choices as follows (make sure there is a space between all lines):
+//     Explain to me each of your choices as follows (make sure there is a space between all lines):
 
-    Outfit 1:
-    Explanation 1:
+//     Outfit 1:
+//     Explanation 1:
 
-    Outfit 2:
-    Explanation 2:
-  `
+//     Outfit 2:
+//     Explanation 2:
+//   `
 console.log(basePromptPrefix)
 
 const generateAction = async (req, res) => {
