@@ -45,7 +45,6 @@ const Home = () => {
             <h2>Subtitle goes here</h2>
           </div>
         </div>
-        {/* Add this code here*/}
         <div className="prompt-container">
         <textarea
           className="prompt-box"
@@ -54,17 +53,29 @@ const Home = () => {
           onChange={onUserChangedText}
         />;
         <div className="prompt-buttons">
-          <a className="generate-button" onClick={null}>
+          <a className="generate-button" onClick={callGenerateEndpoint}>
             <div className="generate">
               <p>Generate</p>
             </div>
           </a>
         </div>
+        {apiOutput && (
+        <div className="output">
+          <div className="output-header-container">
+            <div className="output-header">
+              <h3>Output</h3>
+            </div>
+          </div>
+          <div className="output-content">
+            <p>{apiOutput}</p>
+          </div>
+        </div>
+        )}
         </div>
       </div>
       <div className="badge-container grow">
         <a
-          href="https://zuhair.io"
+          // href="https://zuhair.io"
           target="_blank"
           rel="noreferrer"
         >
