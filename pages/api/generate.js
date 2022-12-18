@@ -8,6 +8,18 @@ const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// const getTemperatureByIP = async () => {
+//     const apiKey = process.env.OPEN_WEATHER_MAP_API_KEY;
+//     const endpoint = `https://api.openweathermap.org/data/2.5/weather/current?appid=${apiKey}`;
+//     const response = await fetch(endpoint);
+//     const data = await response.json();
+//     const temp = data.main.temp;
+//     return temp;
+//   };
+
+// const weather = "sunny";
+// const location = "San Francisco";
+
 const openai = new OpenAIApi(configuration);
 
 const generateAction = async (req, res) => {
@@ -25,9 +37,7 @@ const generateAction = async (req, res) => {
             Outfit 2:
             Explanation 2:
         `
-        console.log(basePromptPrefix)
   // Run first prompt
-  console.log(`API: ${basePromptPrefix}${req.body.userInput}`)
 
   const baseCompletion = await openai.createCompletion({
     model: 'text-davinci-003',

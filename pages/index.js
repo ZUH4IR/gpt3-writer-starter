@@ -2,6 +2,25 @@ import Head from 'next/head';
 import Image from 'next/image';
 import ZLlogo from '../assets/ZL-Logo-White.png';
 import { useState } from 'react';
+import { basePromptPrefix } from './api/generate.js'
+
+const getCurrentLocation = () => {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        console.log(`Latitude: ${latitude}`);
+        console.log(`Longitude: ${longitude}`);
+      }
+    );
+  });
+};
+
+getCurrentLocation().then((locationData) => {
+  console.log(locationData);
+});
+
 
 const Home = () => {
   const [userInput, setUserInput] = useState('');
@@ -22,19 +41,18 @@ const Home = () => {
 
     const data = await response.json();
     const { output } = data;
-    console.log("OpenAI replied...", output.text)
+    console.log("OpenAI replied...", output.text, basePromptPrefix)
 
     setApiOutput(`${output.text}`);
     setIsGenerating(false);
   }
   const onUserChangedText = (event) => {
-    // console.log(event.target.value);
     setUserInput(event.target.value);
   };
   return (
     <div className="root">
       <Head>
-        <title>GPT-3 Writer | buildspace</title>
+        <title>Outfit Picker | Fits</title>
       </Head>
       <div className="container">
         <div className="header">
@@ -42,7 +60,7 @@ const Home = () => {
           <h1>Outfit Picker</h1>
           </div>
           <div className="header-subtitle">
-            <h2>Subtitle goes here</h2>
+            <h2>Pick an outfit depending on the weather</h2>
           </div>
         </div>
         <div className="prompt-container">
