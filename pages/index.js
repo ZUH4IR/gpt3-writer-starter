@@ -2,7 +2,6 @@ import Head from 'next/head';
 import Image from 'next/image';
 import ZLlogo from '../assets/ZL-Logo-White.png';
 import { useState } from 'react';
-import { basePromptPrefix } from './api/generate.js'
 
 const getCurrentLocation = () => {
   return new Promise((resolve, reject) => {
@@ -41,7 +40,7 @@ const Home = () => {
 
     const data = await response.json();
     const { output } = data;
-    console.log("OpenAI replied...", output.text, basePromptPrefix)
+    console.log("OpenAI replied...", output.text)
 
     setApiOutput(`${output.text}`);
     setIsGenerating(false);
