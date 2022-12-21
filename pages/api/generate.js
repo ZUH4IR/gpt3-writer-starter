@@ -5,17 +5,12 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-// VARIABLES
-const temp = 75;
-const weather = "sunny";
-const city = "San Francisco"
-
 // Get request and response of prompt
 const generateAction = async (req, res) => {
   const basePromptPrefix = 
     `
         I am ${req.body.userInput}
-        Create some possible outfits to wear today; it is ${temp} Kelvin and ${weather} today in ${city}.
+        Create some possible outfits to wear today; it is ${Math.floor((req.body.temp - 273.15) * 9/5 + 32)} degrees and ${req.body.weather} today in ${req.body.city}.
         Explain to me each of your choices as follows (make sure there is a space between all lines):
         Outfit 1:
         Explanation 1:

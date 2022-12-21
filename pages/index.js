@@ -3,7 +3,7 @@ import Image from 'next/image';
 import ZLlogo from '../assets/ZL-Logo-White.png';
 import { useState } from 'react';
 
-const fetchLocationData = () => { // Gets City & Weather
+var fetchLocationData = () => { // Gets City & Weather
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(async function (position) {
       const latitude = position.coords.latitude;
@@ -13,27 +13,22 @@ const fetchLocationData = () => { // Gets City & Weather
       const gMapsUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${gMapsAPI}`;
       const gMapsResponse = await fetch(gMapsUrl);
       const gMapsData = await gMapsResponse.json();
-      const city = gMapsData.results[5].formatted_address;
+      var city = gMapsData.results[5].formatted_address;
 
       const openWeatherMapAPI = process.env.NEXT_PUBLIC_OPEN_WEATHER_MAP_API_KEY;
       const openWeatherMapUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&appid=${openWeatherMapAPI}`;
       const openWeatherMapResponse = await fetch(openWeatherMapUrl);
       const openWeatherMapData = await openWeatherMapResponse.json();
-      const temp = openWeatherMapData.current.temp;
-      const weather = openWeatherMapData.current.weather[0].description;
+      var temp = openWeatherMapData.current.temp;
+      var weather = openWeatherMapData.current.weather[0].description;
 
       resolve({ city, temp, weather });
     });
   });
 };
 
-fetchLocationData().then((locationData) => {
-  console.log(locationData.city);
-  console.log(locationData.temp);
-  console.log(locationData.weather);
-});
-
 const Home = () => {
+  
   const [userInput, setUserInput] = useState('');
   const [apiOutput, setApiOutput] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
@@ -42,21 +37,26 @@ const Home = () => {
     setIsGenerating(true);
     
     console.log("Calling OpenAI...")
+
+    const locationData = await fetchLocationData();
+    const { city, temp, weather } = locationData
+  
     const response = await fetch('/api/generate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userInput }),
+      body: JSON.stringify({ userInput, city, temp, weather }),
     });
-
+  
     const data = await response.json();
     const { output } = data;
     console.log("OpenAI replied...", output.text)
-
+  
     setApiOutput(`${output.text}`);
     setIsGenerating(false);
   }
+
   const onUserChangedText = (event) => {
     setUserInput(event.target.value);
   };
