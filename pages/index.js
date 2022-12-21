@@ -3,56 +3,37 @@ import Image from 'next/image';
 import ZLlogo from '../assets/ZL-Logo-White.png';
 import { useState } from 'react';
 
-const getLocation = async () => {
-  const locationData = await new Promise((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        console.log(`Latitude: ${latitude}`);
-        console.log(`Longitude: ${longitude}`);
-        resolve({ latitude, longitude });  // Pass the location data to the resolve function
-      },
-      (error) => {
-        console.error(error);  // Log the error to the console
-        reject(error);  // Pass the error to the reject function
-      }
-    );
+const fetchLocationData = () => {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(async function (position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      console.log(`Latitude: ${latitude}`);
+      console.log(`Longitude: ${longitude}`);
+
+      const locationData = { latitude, longitude };
+
+      const gMapsAPI = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+      const gMapsUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${locationData.latitude},${locationData.longitude}&key=${gMapsAPI}`;
+      const gMapsResponse = await fetch(gMapsUrl);
+      const gMapsData = await gMapsResponse.json();
+      const location = gMapsData.results[5].formatted_address;
+
+      const openWeatherMapAPI = process.env.NEXT_PUBLIC_OPEN_WEATHER_MAP_API_KEY;
+      const openWeatherMapUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${locationData.latitude}&lon=${locationData.longitude}&appid=${openWeatherMapAPI}`;
+      const openWeatherMapResponse = await fetch(openWeatherMapUrl);
+      const openWeatherMapData = await openWeatherMapResponse.json();
+
+      resolve({ location, openWeatherMapData });
+    });
   });
-
-  // const apiKey = "" // process.env.GOOGLE_MAPS_API_KEY;
-  //   const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${locationData.latitude},${locationData.longitude}&key=${apiKey}`;
-  //   const response = await fetch(url);
-  //   const data = await response.json();
-  //   // return (url);
-  //   return data.results[5].formatted_address
-
-  const apiKey = process.env.OPEN_WEATHER_MAP_API_KEY;
-  const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${locationData.latitude}&lon=${locationData.longitude}&appid=${apiKey}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    // return (url);
-    return url
-
-  // async function getCurrentWeather(latitude, longitude) {
-  //   const apiKey = process.env.OPEN_WEATHER_MAP_API_KEY;
-  //   const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
-  //   try {
-  //     const response = await fetch(url);
-  //     if (response.status !== 200) {
-  //       throw new Error("Error while fetching data");
-  //     }
-  //     const data = await response.json();
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
 };
 
-getLocation().then((location) => {
-  console.log(location);  // Log the location data to the console
+fetchLocationData().then((locationData) => {
+  console.log(locationData.location);
+  console.log(locationData.openWeatherMapData);
 });
+
 
 const Home = () => {
   const [userInput, setUserInput] = useState('');

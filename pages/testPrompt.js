@@ -100,3 +100,62 @@
 //   console.log(locationData);
 //   console.log(city)
 // });
+
+  // async function getCurrentWeather(latitude, longitude) {
+  //   const apiKey = process.env.OPEN_WEATHER_MAP_API_KEY;
+  //   const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+  //   try {
+  //     const response = await fetch(url);
+  //     if (response.status !== 200) {
+  //       throw new Error("Error while fetching data");
+  //     }
+  //     const data = await response.json();
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
+
+  // const getLocation = async () => {
+//   const locationData = await new Promise((resolve, reject) => {
+//     navigator.geolocation.getCurrentPosition(
+//       (position) => {
+//         const latitude = position.coords.latitude;
+//         const longitude = position.coords.longitude;
+//         console.log(`Latitude: ${latitude}`);
+//         console.log(`Longitude: ${longitude}`);
+//         resolve({ latitude, longitude });  // Pass the location data to the resolve function
+//       },
+//       (error) => {
+//         console.error(error);  // Log the error to the console
+//         reject(error);  // Pass the error to the reject function
+//       }
+//     );
+//   });
+
+// const fetchLocationData = async () => 
+//   navigator.geolocation.getCurrentPosition(async function (position) {
+//     const latitude = position.coords.latitude;
+//     const longitude = position.coords.longitude;
+//     console.log(`Latitude: ${latitude}`);
+//     console.log(`Longitude: ${longitude}`);
+
+//   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+//     const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${locationData.latitude},${locationData.longitude}&key=${gMapsAPI}`;
+//     const response = await fetch(url);
+//     const data = await response.json();
+//     // return (url);
+//     return data.results[5].formatted_address
+
+//   const apiKey = process.env.NEXT_PUBLIC_OPEN_WEATHER_MAP_API_KEY;
+//   const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${locationData.latitude}&lon=${locationData.longitude}&appid=${apiKey}`;
+//     const response = await fetch(url);
+//     const data = await response.json();
+//     // return (url);
+//     return data
+//   });
+
+// getLocation().then((location) => {
+//   console.log(location);  // Log the location data to the console
+// });
+
