@@ -10,7 +10,7 @@ const generateAction = async (req, res) => {
   const basePromptPrefix = 
     `
         I am ${req.body.userInput}
-        Create some possible outfits to wear today; it is ${Math.floor((req.body.temp - 273.15) * 9/5 + 32)} degrees and ${req.body.weather} today in ${req.body.city}.
+        Create some possible outfits to wear today based on the information given; It is ${Math.floor((req.body.temp - 273.15) * 9/5 + 32)} degrees and ${req.body.weather} today in ${req.body.city}.
         Explain to me each of your choices as follows (make sure there is a space between all lines):
         Outfit 1:
         Explanation 1:

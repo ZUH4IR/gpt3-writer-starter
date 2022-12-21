@@ -3,7 +3,7 @@ import Image from 'next/image';
 import ZLlogo from '../assets/ZL-Logo-White.png';
 import { useState } from 'react';
 
-var fetchLocationData = () => { // Gets City & Weather
+const fetchLocationData = () => { // Gets City & Weather
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(async function (position) {
       const latitude = position.coords.latitude;
@@ -13,14 +13,14 @@ var fetchLocationData = () => { // Gets City & Weather
       const gMapsUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${gMapsAPI}`;
       const gMapsResponse = await fetch(gMapsUrl);
       const gMapsData = await gMapsResponse.json();
-      var city = gMapsData.results[5].formatted_address;
+      const city = gMapsData.results[5].formatted_address;
 
       const openWeatherMapAPI = process.env.NEXT_PUBLIC_OPEN_WEATHER_MAP_API_KEY;
       const openWeatherMapUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&appid=${openWeatherMapAPI}`;
       const openWeatherMapResponse = await fetch(openWeatherMapUrl);
       const openWeatherMapData = await openWeatherMapResponse.json();
-      var temp = openWeatherMapData.current.temp;
-      var weather = openWeatherMapData.current.weather[0].description;
+      const temp = openWeatherMapData.current.temp;
+      const weather = openWeatherMapData.current.weather[0].description;
 
       resolve({ city, temp, weather });
     });
