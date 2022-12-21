@@ -3,37 +3,35 @@ import Image from 'next/image';
 import ZLlogo from '../assets/ZL-Logo-White.png';
 import { useState } from 'react';
 
-const fetchLocationData = () => {
+const fetchLocationData = () => { // Gets City & Weather
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(async function (position) {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
-      console.log(`Latitude: ${latitude}`);
-      console.log(`Longitude: ${longitude}`);
-
-      const locationData = { latitude, longitude };
 
       const gMapsAPI = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-      const gMapsUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${locationData.latitude},${locationData.longitude}&key=${gMapsAPI}`;
+      const gMapsUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${gMapsAPI}`;
       const gMapsResponse = await fetch(gMapsUrl);
       const gMapsData = await gMapsResponse.json();
-      const location = gMapsData.results[5].formatted_address;
+      const city = gMapsData.results[5].formatted_address;
 
       const openWeatherMapAPI = process.env.NEXT_PUBLIC_OPEN_WEATHER_MAP_API_KEY;
-      const openWeatherMapUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${locationData.latitude}&lon=${locationData.longitude}&appid=${openWeatherMapAPI}`;
+      const openWeatherMapUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&appid=${openWeatherMapAPI}`;
       const openWeatherMapResponse = await fetch(openWeatherMapUrl);
       const openWeatherMapData = await openWeatherMapResponse.json();
+      const temp = openWeatherMapData.current.temp;
+      const weather = openWeatherMapData.current.weather[0].description;
 
-      resolve({ location, openWeatherMapData });
+      resolve({ city, temp, weather });
     });
   });
 };
 
 fetchLocationData().then((locationData) => {
-  console.log(locationData.location);
-  console.log(locationData.openWeatherMapData);
+  console.log(locationData.city);
+  console.log(locationData.temp);
+  console.log(locationData.weather);
 });
-
 
 const Home = () => {
   const [userInput, setUserInput] = useState('');
