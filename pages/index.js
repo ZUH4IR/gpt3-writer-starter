@@ -30,7 +30,6 @@ const fetchLocationData = () => { // Gets City & Weather
 };
 
 const Home = () => {
-  
   const [userInput, setUserInput] = useState('');
   const [apiOutput, setApiOutput] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
@@ -73,6 +72,7 @@ const Home = () => {
     <div className="root">
       <Head>
         <title>Outfit Picker | Fits</title>
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="container">
         <div className="header">

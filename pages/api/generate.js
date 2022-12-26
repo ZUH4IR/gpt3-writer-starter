@@ -7,11 +7,16 @@ const openai = new OpenAIApi(configuration);
 
 // Get request and response of prompt
 const generateAction = async (req, res) => {
+  const temp = Math.floor((req.body.temp - 273.15) * 9/5 + 32)
+  const weather = req.body.weather
+  const city = req.body.city
+
   const basePromptPrefix = 
     `
         I am ${req.body.userInput}
-        Create some possible outfits to wear today based on the information given; It is ${Math.floor((req.body.temp - 273.15) * 9/5 + 32)} degrees Farenheit and ${req.body.weather} today in ${req.body.city}.
-        Explain to me each of your choices as follows (make sure there is a space between all lines):
+        Create some possible outfits to wear today based on the information given; It is ${temp} degrees Farenheit and ${weather} today in ${city}.
+        Explain to me each of your choices as follows (make sure there is a space between all lines); also tell me where to get each item:
+
         Outfit 1:
         Explanation 1:
         Outfit 2:
