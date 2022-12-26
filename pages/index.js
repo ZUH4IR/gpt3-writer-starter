@@ -23,6 +23,8 @@ const fetchLocationData = () => { // Gets City & Weather
       const weather = openWeatherMapData.current.weather[0].description;
 
       resolve({ city, temp, weather });
+    }, (error) => {
+      reject(error);
     });
   });
 };
@@ -35,29 +37,34 @@ const Home = () => {
 
   const callGenerateEndpoint = async () => {
     setIsGenerating(true);
-    
+  
     console.log("Calling OpenAI...")
-
-    const locationData = await fetchLocationData();
-
-    const { city, temp, weather } = locationData
-    console.log(`City: ${city}, Kelvin: ${temp}, Weather: ${weather}`)
-
-    const response = await fetch('/api/generate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userInput, city, temp, weather }),
-    });
   
-    const data = await response.json();
-    const { output } = data;
-    console.log("OpenAI replied...", output.text)
+    try {
+      const locationData = await fetchLocationData();
+      const { city, temp, weather } = locationData
+      console.log(`City: ${city}, Kelvin: ${temp}, Weather: ${weather}`)
   
-    setApiOutput(`${output.text}`);
-    setIsGenerating(false);
-  }
+      const response = await fetch('/api/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userInput, city, temp, weather }),
+      });
+  
+      const data = await response.json();
+      const { output } = data;
+      console.log("OpenAI replied...", output.text)
+  
+      setApiOutput(`${output.text}`);
+    } catch (error) {
+      console.error(error);
+      setApiOutput('Error: Location data could not be retrieved. Please make sure location sharing is enabled for this site.');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   const onUserChangedText = (event) => {
     setUserInput(event.target.value);
