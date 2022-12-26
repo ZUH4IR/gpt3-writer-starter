@@ -39,8 +39,11 @@ const Home = () => {
     console.log("Calling OpenAI...")
 
     const locationData = await fetchLocationData();
+    console.log(`Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`)
+
     const { city, temp, weather } = locationData
-  
+    console.log(`City: ${city}, Kelvin: ${temp}, Weather: ${weather}`)
+
     const response = await fetch('/api/generate', {
       method: 'POST',
       headers: {
@@ -76,7 +79,7 @@ const Home = () => {
         </div>
         <div className="prompt-container">
           <textarea
-            placeholder="start typing here"
+            placeholder="describe yourself"
             className="prompt-box"
             value={userInput}
             onChange={onUserChangedText}
