@@ -97,7 +97,7 @@ body {
     overflow: hidden;
     padding: 20px;
     position: relative;
-    width: 610px;
+    width: 600px;
     max-width: 1200px;
     will-change: transform;
     overflow: auto;
@@ -341,7 +341,7 @@ textarea {
 
 @media (max-width: 600px) {
     .container {
-        max-width: 400px;
+        max-width: 80vw;
         width: 100%;
     }
 
@@ -362,7 +362,7 @@ textarea {
     }
 
     .prompt-container {
-        max-width: 400px;
+        max-width: 80vw;
         width: 100%;
     }
 
