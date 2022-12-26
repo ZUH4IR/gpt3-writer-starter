@@ -30,7 +30,8 @@ const fetchLocationData = () => { // Gets City & Weather
 };
 
 const Home = () => {
-  const [userInput, setUserInput] = useState('');
+  const [userInputDescribe, setUserInputDescribe] = useState('');
+  const [userInputActivity, setUserInputActivity] = useState('');
   const [apiOutput, setApiOutput] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
 
@@ -49,7 +50,7 @@ const Home = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userInput, city, temp, weather }),
+        body: JSON.stringify({ userInputDescribe, userInputActivity, city, temp, weather }),
       });
   
       const data = await response.json();
@@ -65,8 +66,11 @@ const Home = () => {
     }
   };
 
-  const onUserChangedText = (event) => {
-    setUserInput(event.target.value);
+  const onUserChangedDescribe = (event) => {
+    setUserInputDescribe(event.target.value);
+  };
+  const onUserChangedAct = (event) => {
+    setUserInputActivity(event.target.value);
   };
   return (
     <div className="root">
@@ -87,8 +91,14 @@ const Home = () => {
           <textarea
             placeholder="describe yourself"
             className="prompt-box"
-            value={userInput}
-            onChange={onUserChangedText}
+            value={userInputDescribe}
+            onChange={onUserChangedDescribe}
+          />
+          <textarea
+            placeholder="what are you doing today?"
+            className="prompt-box"
+            value={userInputActivity}
+            onChange={onUserChangedAct}
           />
           <div className="prompt-buttons">
             <a

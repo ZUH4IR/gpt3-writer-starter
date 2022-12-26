@@ -10,17 +10,24 @@ const generateAction = async (req, res) => {
   const temp = Math.floor((req.body.temp - 273.15) * 9/5 + 32)
   const weather = req.body.weather
   const city = req.body.city
+  const activity = req.body.userInputActivity ? `for this activity: ${req.body.userInputActivity}` : "";
+ 
 
   const basePromptPrefix = 
     `
-        I am ${req.body.userInput}
+        I am ${req.body.userInputDescribe}
+        I want to make sure I am properly dressed for today ${activity}
         Create some possible outfits to wear today based on the information given; It is ${temp} degrees Farenheit and ${weather} today in ${city}.
-        Explain to me each of your choices as follows (make sure there is a space between all lines); also tell me where to get each item:
+        You will also tell me where to buy each item.
+        Explain to me each of your choices as follows (make sure there is a new line after each parameter):
 
         Outfit 1:
         Explanation 1:
+        Where to buy:
+
         Outfit 2:
         Explanation 2:
+        Where to buy:
     `
     console.log(basePromptPrefix) // LOG PROMT
     const baseCompletion = await openai.createCompletion({
