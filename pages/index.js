@@ -39,7 +39,6 @@ const Home = () => {
     console.log("Calling OpenAI...")
 
     const locationData = await fetchLocationData();
-    console.log(`Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`)
 
     const { city, temp, weather } = locationData
     console.log(`City: ${city}, Kelvin: ${temp}, Weather: ${weather}`)
