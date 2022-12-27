@@ -22,11 +22,17 @@ const generateAction = async (req, res) => {
         Explain to me each of your choices as follows (make sure there is a new line after each parameter):
 
         Outfit 1:
+
         Explanation 1:
+        
         Where to buy:
 
+        --
+
         Outfit 2:
+        
         Explanation 2:
+        
         Where to buy:
     `
     console.log(basePromptPrefix) // LOG PROMT

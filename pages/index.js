@@ -89,13 +89,13 @@ const Home = () => {
         </div>
         <div className="prompt-container">
           <textarea
-            placeholder="describe yourself"
+            placeholder="describe yourself ex. 18 year old male, out going"
             className="prompt-box"
             value={userInputDescribe}
             onChange={onUserChangedDescribe}
           />
           <textarea
-            placeholder="what are you doing today?"
+            placeholder="what are you doing today? ex. fishing, shopping, tennis"
             className="prompt-box"
             value={userInputActivity}
             onChange={onUserChangedAct}
